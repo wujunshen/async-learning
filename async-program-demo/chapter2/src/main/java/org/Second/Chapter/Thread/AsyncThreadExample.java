@@ -1,4 +1,4 @@
-package org.Second.Chapter.Thread;
+package org.second.chapter.thread;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;

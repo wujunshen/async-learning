@@ -1,11 +1,10 @@
-package org.Second.Chapter.ThreadPool;
+package org.second.chapter.threadpool;
 
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class NamedThreadFactory implements ThreadFactory {
-
-  private static final AtomicInteger poolNumber = new AtomicInteger(1);
+  private static final AtomicInteger POOL_NUMBER = new AtomicInteger(1);
 
   private final AtomicInteger threadNumber = new AtomicInteger(1);
   private final ThreadGroup group;
@@ -20,15 +19,16 @@ public class NamedThreadFactory implements ThreadFactory {
     this(name, true);
   }
 
-  public NamedThreadFactory(String preffix, boolean daemon) {
+  public NamedThreadFactory(String prefix, boolean daemon) {
     SecurityManager s = System.getSecurityManager();
     group = (s != null) ? s.getThreadGroup() : Thread.currentThread().getThreadGroup();
-    namePrefix = preffix + "-" + poolNumber.getAndIncrement() + "-thread-";
+    namePrefix = prefix + "-" + POOL_NUMBER.getAndIncrement() + "-thread-";
     isDaemon = daemon;
   }
 
-  public Thread newThread(Runnable r) {
-    Thread t = new Thread(group, r, namePrefix + threadNumber.getAndIncrement(), 0);
+  @Override
+  public Thread newThread(Runnable runnable) {
+    Thread t = new Thread(group, runnable, namePrefix + threadNumber.getAndIncrement(), 0);
     t.setDaemon(isDaemon);
     if (t.getPriority() != Thread.NORM_PRIORITY) {
       t.setPriority(Thread.NORM_PRIORITY);

@@ -26,14 +26,13 @@ public class StreamTest {
   }
 
   public static void useStream(List<Person> personList) {
-
     List<String> nameList =
         personList.stream()
             .filter(person -> person.getAge() >= 10) // 1.过滤大于等于10的
             .map(person -> person.getName()) // 2.使用map映射元素
             .collect(Collectors.toList()); // 3.收集映射后元素
 
-    nameList.stream().forEach(name -> System.out.println(name));
+    nameList.forEach(name -> System.out.println(name));
   }
 
   public static void noStream(List<Person> personList) {
