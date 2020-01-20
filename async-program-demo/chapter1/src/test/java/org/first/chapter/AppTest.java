@@ -1,10 +1,12 @@
-package org.First.Chapter;
+package org.first.chapter;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import lombok.extern.slf4j.Slf4j;
 
 /** Unit test for simple App. */
+@Slf4j
 public class AppTest extends TestCase {
   /**
    * Create the test case
