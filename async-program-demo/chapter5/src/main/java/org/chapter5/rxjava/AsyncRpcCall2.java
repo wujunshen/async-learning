@@ -1,4 +1,4 @@
-package org.Chapter5.rxjava;
+package org.chapter5.rxjava;
 
 import io.reactivex.Flowable;
 import io.reactivex.schedulers.Schedulers;
@@ -7,10 +7,12 @@ import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 
+@Slf4j
 public class AsyncRpcCall2 {
-
-  // 0自定义线程池
+  /** 0自定义线程池 */
   private static final ThreadPoolExecutor POOL_EXECUTOR =
       new ThreadPoolExecutor(
           10,
@@ -21,22 +23,19 @@ public class AsyncRpcCall2 {
           new ThreadPoolExecutor.CallerRunsPolicy());
 
   public static String rpcCall(String ip, String param) {
-
-    System.out.println(ip + " rpcCall:" + param);
+    log.info("{} rpcCall:{}", ip, param);
     try {
       Thread.sleep(2000);
     } catch (InterruptedException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      log.error("exception message is:{}", ExceptionUtils.getStackTrace(e));
     }
 
     return param;
   }
 
   public static void main(String[] args) {
-
     // 1.生成ip列表
-    List<String> ipList = new ArrayList<String>();
+    List<String> ipList = new ArrayList<>();
     for (int i = 1; i <= 10; ++i) {
       ipList.add("192.168.0." + i);
     }
@@ -46,14 +45,16 @@ public class AsyncRpcCall2 {
 
     Flowable.fromArray(ipList.toArray(new String[0]))
         .flatMap(
-            ip -> // 2.1
-            Flowable.just(ip) // 2.2
+            // 2.1
+            ip ->
+                Flowable.just(ip) // 2.2
                     .subscribeOn(Schedulers.from(POOL_EXECUTOR)) // 2.3
                     .map(v -> rpcCall(v, v))) // 2.4
-        .blockingSubscribe(System.out::println); // 2.5
+        // 2.5
+        .blockingSubscribe(ip -> log.info("{}", ip));
 
     // 3.打印耗时
-    System.out.println("cost:" + (System.currentTimeMillis() - start));
+    log.info("cost:{}ms", System.currentTimeMillis() - start);
 
     // 4.关闭线程池
     POOL_EXECUTOR.shutdown();

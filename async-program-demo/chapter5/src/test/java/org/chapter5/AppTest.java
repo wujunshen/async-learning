@@ -1,4 +1,4 @@
-package org.Chapter5;
+package org.chapter5;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
