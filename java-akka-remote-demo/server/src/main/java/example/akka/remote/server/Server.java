@@ -6,7 +6,7 @@ import com.typesafe.config.ConfigFactory;
 
 public class Server {
 
-  public static void main(String... args) {
+  public static void main(String[] args) {
     // 1. 创建Actor系统
     ActorSystem system = ActorSystem.create("AkkaRemoteServer", ConfigFactory.load());
 

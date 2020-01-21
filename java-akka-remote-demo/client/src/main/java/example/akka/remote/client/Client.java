@@ -4,7 +4,9 @@ import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
 import com.typesafe.config.ConfigFactory;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class Client {
   public static void main(String[] args) {
     // 1. 创建Actor系统，会加载application.conf文件
@@ -15,6 +17,6 @@ public class Client {
 
     // 3. 发送消息
     client.tell("DoCalcs", ActorRef.noSender());
-    System.out.println("over");
+    log.info("over");
   }
 }

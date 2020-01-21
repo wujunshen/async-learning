@@ -13,17 +13,12 @@ public class ClientActor extends UntypedActor {
       getContext()
           .actorSelection("akka.tcp://AkkaRemoteServer@127.0.0.1:2552/user/CalculatorActor");
 
-  // private ActorRef actorRef =
-  // getContext().actorOf(Props.create(CalculatorActor.class), "calculatorActor");
-
   @Override
-  public void onReceive(Object message) throws Exception {
+  public void onReceive(Object message) {
     if (message.equals("DoCalcs")) {
-
-      // log.info("Got a calc job, send it to the remote calculator");
       log.info("Got a calc job, local calculator");
 
-      System.out.println(actorRef);
+      log.info("{}", actorRef);
       actorRef.tell(new Messages.Sum(1, 2), getSelf());
 
     } else if (message instanceof Messages.Result) {

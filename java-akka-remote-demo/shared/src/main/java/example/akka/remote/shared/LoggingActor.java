@@ -10,7 +10,7 @@ public class LoggingActor extends UntypedActor implements Serializable {
   private LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
   @Override
-  public void onReceive(Object message) throws Exception {
+  public void onReceive(Object message) {
     if (message instanceof String) {
       log.info("Got message: " + message);
     }
