@@ -1,4 +1,4 @@
-package org.Third.Chapter;
+package org.third.chapter;
 
 /** Hello world! */
 public class App {

@@ -1,4 +1,4 @@
-package org.Third.Chapter;
+package org.third.chapter;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

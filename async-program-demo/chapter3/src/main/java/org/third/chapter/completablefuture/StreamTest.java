@@ -1,13 +1,15 @@
-package org.Third.Chapter.CompletableFuture;
+package org.third.chapter.completablefuture;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class StreamTest {
-
   public static List<Person> makeList() {
-    List<Person> personList = new ArrayList<Person>();
+    List<Person> personList = new ArrayList<>();
     Person p1 = new Person();
     p1.setAge(10);
     p1.setName("zlx");
@@ -28,15 +30,17 @@ public class StreamTest {
   public static void useStream(List<Person> personList) {
     List<String> nameList =
         personList.stream()
-            .filter(person -> person.getAge() >= 10) // 1.过滤大于等于10的
-            .map(person -> person.getName()) // 2.使用map映射元素
-            .collect(Collectors.toList()); // 3.收集映射后元素
+            // 1.过滤大于等于10的
+            .filter(person -> person.getAge() >= 10)
+            // 2.使用map映射元素
+            .map(Person::getName)
+            // 3.收集映射后元素
+            .collect(Collectors.toList());
 
-    nameList.forEach(name -> System.out.println(name));
+    nameList.forEach(name -> log.info("{}", name));
   }
 
   public static void noStream(List<Person> personList) {
-
     List<String> nameList = new ArrayList<>();
 
     for (Person person : personList) {
@@ -46,35 +50,19 @@ public class StreamTest {
     }
 
     for (String name : nameList) {
-      System.out.println(name);
+      log.info("{}", name);
     }
   }
 
   public static void main(String[] args) {
-
     List<Person> personList = makeList();
 
     noStream(personList);
   }
 
+  @Data
   static class Person {
     private String name;
     private int age;
-
-    public String getName() {
-      return name;
-    }
-
-    public void setName(String name) {
-      this.name = name;
-    }
-
-    public int getAge() {
-      return age;
-    }
-
-    public void setAge(int age) {
-      this.age = age;
-    }
   }
 }

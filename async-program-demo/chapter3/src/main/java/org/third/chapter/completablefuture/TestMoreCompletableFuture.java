@@ -1,56 +1,46 @@
-package org.Third.Chapter.CompletableFuture;
+package org.third.chapter.completablefuture;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.function.Function;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 
+@Slf4j
 public class TestMoreCompletableFuture {
 
   // 1.异步任务，返回future
   public static CompletableFuture<String> doSomethingOne(String id) {
     // 1.1创建异步任务
     return CompletableFuture.supplyAsync(
-        new Supplier<String>() {
-
-          @Override
-          public String get() {
-
-            // 1.1.1休眠1s，模拟任务计算
-            try {
-              Thread.sleep(1000);
-            } catch (InterruptedException e) {
-              e.printStackTrace();
-            }
-            System.out.println("compute " + id);
-
-            return id;
+        () -> {
+          // 1.1.1休眠1s，模拟任务计算
+          try {
+            Thread.sleep(1000);
+          } catch (InterruptedException e) {
+            log.error("exception message is:{}", ExceptionUtils.getStackTrace(e));
           }
+          log.info("compute {}", id);
+
+          return id;
         });
   }
 
   // 2.开启异步任务，返回future
   public static CompletableFuture<String> doSomethingTwo(String id) {
     return CompletableFuture.supplyAsync(
-        new Supplier<String>() {
-
-          @Override
-          public String get() {
-
-            // 2.1,休眠3s，模拟计算
-            try {
-              Thread.sleep(5000);
-            } catch (InterruptedException e) {
-              // TODO Auto-generated catch block
-              e.printStackTrace();
-            }
-            System.out.println("compute " + id);
-
-            return id;
+        () -> {
+          // 2.1,休眠3s，模拟计算
+          try {
+            Thread.sleep(5000);
+          } catch (InterruptedException e) {
+            log.error("exception message is:{}", ExceptionUtils.getStackTrace(e));
           }
+          log.info("compute {}", id);
+
+          return id;
         });
   }
 
@@ -64,27 +54,19 @@ public class TestMoreCompletableFuture {
 
     // 2.转换多个future为一个
     CompletableFuture<Void> result =
-        CompletableFuture.allOf(futureList.toArray(new CompletableFuture[futureList.size()]));
+        CompletableFuture.allOf(futureList.toArray(new CompletableFuture[0]));
 
     // 3.等待所有future都完成
-    System.out.println(result.get());
+    log.info("{}", result.get());
 
     // 4.等所有future执行完毕后，获取所有future的计算结果
     CompletableFuture<List<String>> finallyResult =
         result.thenApply(
-            new Function<Void, List<String>>() {
-
-              @Override
-              public List<String> apply(Void t) {
-                return futureList.stream()
-                    .map(future -> future.join())
-                    .collect(Collectors.toList());
-              }
-            });
+            t -> futureList.stream().map(CompletableFuture::join).collect(Collectors.toList()));
 
     // 5.打印所有future的结果
     for (String str : finallyResult.get()) {
-      System.out.println(str);
+      log.info("{}", str);
     }
   }
 
@@ -97,10 +79,10 @@ public class TestMoreCompletableFuture {
 
     // 2.转换多个future为一个
     CompletableFuture<Object> result =
-        CompletableFuture.anyOf(futureList.toArray(new CompletableFuture[futureList.size()]));
+        CompletableFuture.anyOf(futureList.toArray(new CompletableFuture[0]));
 
     // 3.等待某一个future完成
-    System.out.println(result.get());
+    log.info("{}", result.get());
   }
 
   public static void main(String[] args) throws InterruptedException, ExecutionException {
@@ -108,7 +90,7 @@ public class TestMoreCompletableFuture {
     allOf();
 
     // 2.anyOf
-    // anyOf();
+    anyOf();
 
     Thread.sleep(10000);
   }

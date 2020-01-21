@@ -1,18 +1,19 @@
-package org.Third.Chapter.FutureTask;
+package org.third.chapter.futuretask;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 
+@Slf4j
 public class AsyncFutureExample {
-
   public static String doSomethingA() {
-
     try {
       Thread.sleep(2000);
     } catch (InterruptedException e) {
-      e.printStackTrace();
+      log.error("exception message is:{}", ExceptionUtils.getStackTrace(e));
     }
-    System.out.println("--- doSomethingA---");
+    log.info("--- doSomethingA---");
 
     return "TaskAResult";
   }
@@ -21,26 +22,25 @@ public class AsyncFutureExample {
     try {
       Thread.sleep(2000);
     } catch (InterruptedException e) {
-      e.printStackTrace();
+      log.error("exception message is:{}", ExceptionUtils.getStackTrace(e));
     }
-    System.out.println("--- doSomethingB---");
+    log.info("--- doSomethingB---");
     return "TaskBResult";
   }
 
   public static void main(String[] args) throws InterruptedException, ExecutionException {
-
     long start = System.currentTimeMillis();
 
     // 1.创建future任务
     FutureTask<String> futureTask =
-        new FutureTask<String>(
+        new FutureTask<>(
             () -> {
               String result = null;
               try {
                 result = doSomethingA();
 
               } catch (Exception e) {
-                e.printStackTrace();
+                log.error("exception message is:{}", ExceptionUtils.getStackTrace(e));
               }
               return result;
             });
@@ -50,12 +50,12 @@ public class AsyncFutureExample {
     thread.start();
 
     // 3.执行任务B
-    String taskBResult = doSomethingB();
+    String taskbResult = doSomethingB();
 
     // 4.同步等待线程A运行结束
-    String taskAResult = futureTask.get();
+    String taskaResult = futureTask.get();
     // 5.打印两个任务执行结果
-    System.out.println(taskAResult + " " + taskBResult);
-    System.out.println(System.currentTimeMillis() - start);
+    log.info("{} {}", taskaResult, taskbResult);
+    log.info("{}", System.currentTimeMillis() - start);
   }
 }

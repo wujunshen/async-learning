@@ -1,25 +1,25 @@
-package org.Third.Chapter.CompletableFuture;
+package org.third.chapter.completablefuture;
 
 import java.util.ArrayList;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 
+@Slf4j
 public class StreamTestFuture {
-
   public static String rpcCall(String ip, String param) {
-
-    System.out.println(ip + " rpcCall:" + param);
+    log.info("{} rpcCall:{}", ip, param);
     try {
       Thread.sleep(1000);
     } catch (InterruptedException e) {
-      e.printStackTrace();
+      log.error("exception message is:{}", ExceptionUtils.getStackTrace(e));
     }
     return param;
   }
 
   public static void main(String[] args) {
-
     // 1.生成ip列表
-    List<String> ipList = new ArrayList<String>();
+    List<String> ipList = new ArrayList<>();
     for (int i = 1; i <= 10; ++i) {
       ipList.add("192.168.0." + i);
     }
@@ -32,7 +32,7 @@ public class StreamTestFuture {
     }
 
     // 3.输出
-    result.stream().forEach(r -> System.out.println(r));
-    System.out.println("cost:" + (System.currentTimeMillis() - start));
+    result.forEach(r -> log.info("{}", r));
+    log.info("cost:{}ms", System.currentTimeMillis() - start);
   }
 }
