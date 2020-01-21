@@ -1,19 +1,17 @@
-package org.ChapterIV.TaskExecutor;
+package org.chapter4.taskexecutor;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
+@Slf4j
+@Data
 public class AsyncExecutorExample {
-  // 线程池执行器
+  /** 线程池执行器 */
   private TaskExecutor taskExecutor;
-
-  public TaskExecutor getTaskExecutor() {
-    return taskExecutor;
-  }
-
-  public void setTaskExecutor(TaskExecutor taskExecutor) {
-    this.taskExecutor = taskExecutor;
-  }
 
   public void shutdown() {
     if (taskExecutor instanceof ThreadPoolTaskExecutor) {
@@ -27,20 +25,17 @@ public class AsyncExecutorExample {
     }
   }
 
-  private class MessagePrinterTask implements Runnable {
-
+  @AllArgsConstructor
+  private static class MessagePrinterTask implements Runnable {
     private String message;
 
-    public MessagePrinterTask(String message) {
-      this.message = message;
-    }
-
+    @Override
     public void run() {
       try {
         Thread.sleep(1000);
-        System.out.println(Thread.currentThread().getName() + " " + message);
+        log.info("{} {}", Thread.currentThread().getName(), message);
       } catch (Exception e) {
-        e.printStackTrace();
+        log.error("exception message is:{}", ExceptionUtils.getStackTrace(e));
       }
     }
   }

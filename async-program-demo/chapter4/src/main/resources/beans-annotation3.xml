@@ -4,8 +4,6 @@
        xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-
-
        http://www.springframework.org/schema/task
        http://www.springframework.org/schema/task/spring-task.xsd">
 
@@ -16,8 +14,8 @@
             exception-handler="myAsyncUncaughtExceptionHandler"/>
 
     <bean id="myAsyncUncaughtExceptionHandler"
-          class="org.ChapterIV.TaskExecutor.MyAsyncUncaughtExceptionHandler"></bean>
+          class="org.chapter4.taskexecutor.MyAsyncUncaughtExceptionHandler"/>
     <bean id="asyncCommentExample"
-          class="org.ChapterIV.TaskExecutor.AsyncExecutorExample">
+          class="org.chapter4.taskexecutor.AsyncExecutorExample">
     </bean>
 </beans>
