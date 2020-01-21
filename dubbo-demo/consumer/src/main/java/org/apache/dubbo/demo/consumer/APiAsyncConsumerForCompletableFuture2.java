@@ -2,16 +2,17 @@ package org.apache.dubbo.demo.consumer;
 
 import com.books.dubbo.demo.api.GreetingService;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.rpc.RpcContext;
 
+@Slf4j
 public class APiAsyncConsumerForCompletableFuture2 {
-  public static void main(String[] args) throws InterruptedException, ExecutionException {
+  public static void main(String[] args) throws InterruptedException {
     // 1.创建服务引用对象实例
-    ReferenceConfig<GreetingService> referenceConfig = new ReferenceConfig<GreetingService>();
+    ReferenceConfig<GreetingService> referenceConfig = new ReferenceConfig<>();
     // 2.设置应用程序信息
     referenceConfig.setApplication(new ApplicationConfig("first-dubbo-consumer"));
     // 3.设置服务注册中心
@@ -32,26 +33,26 @@ public class APiAsyncConsumerForCompletableFuture2 {
     GreetingService greetingService = referenceConfig.get();
 
     // 8.异步执行,并设置回调
-    System.out.println(greetingService.sayHello("hello"));
+    log.info("{}", greetingService.sayHello("hello"));
     CompletableFuture<String> future1 = RpcContext.getContext().getCompletableFuture();
     future1.whenComplete(
         (v, t) -> {
           if (t != null) {
             t.printStackTrace();
           } else {
-            System.out.println(Thread.currentThread().getName() + " " + v);
+            log.info("{} {}", Thread.currentThread().getName(), v);
           }
         });
 
     // 9.异步执行,并设置回调
-    System.out.println(greetingService.sayHello("jiaduo"));
+    log.info("{}", greetingService.sayHello("jiaduo"));
     CompletableFuture<String> future2 = RpcContext.getContext().getCompletableFuture();
     future2.whenComplete(
         (v, t) -> {
           if (t != null) {
             t.printStackTrace();
           } else {
-            System.out.println(Thread.currentThread().getName() + " " + v);
+            log.info("{} {}", Thread.currentThread().getName(), v);
           }
         });
 

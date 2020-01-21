@@ -2,6 +2,8 @@ package com.books.dubbo.demo.test.performance;
 
 import com.books.dubbo.demo.api.GreetingService;
 import java.util.UUID;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
@@ -9,8 +11,8 @@ import org.apache.jmeter.protocol.java.sampler.AbstractJavaSamplerClient;
 import org.apache.jmeter.protocol.java.sampler.JavaSamplerContext;
 import org.apache.jmeter.samplers.SampleResult;
 
+@Slf4j
 public class TestConsumerPerformance extends AbstractJavaSamplerClient {
-
   private GreetingService greetingService;
 
   public static void main(String[] ar) {
@@ -21,15 +23,13 @@ public class TestConsumerPerformance extends AbstractJavaSamplerClient {
 
   @Override
   public SampleResult runTest(JavaSamplerContext arg0) {
-
-    System.out.println("---begin run----");
+    log.info("---begin run----");
     // 0.结果对象
     SampleResult sr = new SampleResult();
 
     String result = null;
     // 1.启动测试
     try {
-
       // 1.1开启样本测试
       sr.sampleStart();
       // 1.2发起远程调用
@@ -42,21 +42,24 @@ public class TestConsumerPerformance extends AbstractJavaSamplerClient {
       // 1.4关闭样本测试
       sr.sampleEnd();
     } catch (Exception e) {
-      e.printStackTrace();
+      log.error("exception message is:{}", ExceptionUtils.getStackTrace(e));
     }
 
-    System.out.println("---end run----" + result);
+    log.info("---end run----{}", result);
     // 2.返回结果
     return sr;
   }
 
-  // 创建引入实例
+  /**
+   * 创建引入实例
+   *
+   * @param context
+   */
   @Override
   public void setupTest(JavaSamplerContext context) {
-
     try {
       // 0.创建服务引用对象实例
-      ReferenceConfig<GreetingService> referenceConfig = new ReferenceConfig<GreetingService>();
+      ReferenceConfig<GreetingService> referenceConfig = new ReferenceConfig<>();
       // 1.设置应用程序信息
       referenceConfig.setApplication(new ApplicationConfig("first-dubbo-consumer"));
       // 2.设置服务注册中心
@@ -74,9 +77,9 @@ public class TestConsumerPerformance extends AbstractJavaSamplerClient {
       greetingService = referenceConfig.get();
 
       // 76调用服务
-      System.out.println("get referenc ok ");
+      log.info("get referenc ok ");
     } catch (Exception e) {
-      System.out.println(e.getLocalizedMessage());
+      log.info("{}", e.getLocalizedMessage());
     }
   }
 }

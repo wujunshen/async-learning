@@ -2,15 +2,18 @@ package org.apache.dubbo.demo.consumer;
 
 import com.books.dubbo.demo.api.GreetingService;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.rpc.RpcContext;
 
+@Slf4j
 public class APiAsyncConsumer {
   public static void main(String[] args) throws InterruptedException, ExecutionException {
     // 1.创建引用实例，并设置属性
-    ReferenceConfig<GreetingService> referenceConfig = new ReferenceConfig<GreetingService>();
+    ReferenceConfig<GreetingService> referenceConfig = new ReferenceConfig<>();
     referenceConfig.setApplication(new ApplicationConfig("first-dubbo-consumer"));
     referenceConfig.setRegistry(new RegistryConfig("zookeeper://127.0.0.1:2181"));
     referenceConfig.setInterface(GreetingService.class);
@@ -23,10 +26,10 @@ public class APiAsyncConsumer {
     // 3.引用服务
     GreetingService greetingService = referenceConfig.get();
 
-    System.out.println(greetingService.sayHello("world"));
+    log.info("{}", greetingService.sayHello("world"));
 
     // 4.等待结果
-    java.util.concurrent.Future<String> future = RpcContext.getContext().getFuture();
-    System.out.println(future.get());
+    Future<String> future = RpcContext.getContext().getFuture();
+    log.info("{}", future.get());
   }
 }

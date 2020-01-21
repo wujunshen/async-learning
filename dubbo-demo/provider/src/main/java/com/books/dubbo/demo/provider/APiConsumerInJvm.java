@@ -1,17 +1,19 @@
 package com.books.dubbo.demo.provider;
 
 import com.books.dubbo.demo.api.GreetingService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.ServiceConfig;
 import org.apache.dubbo.rpc.RpcContext;
 
+@Slf4j
 public class APiConsumerInJvm {
 
   public static void exportService() {
     // 1.创建ServiceConfig实例
-    ServiceConfig<GreetingService> serviceConfig = new ServiceConfig<GreetingService>();
+    ServiceConfig<GreetingService> serviceConfig = new ServiceConfig<>();
     // 2.设置应用程序配置
     serviceConfig.setApplication(new ApplicationConfig("first-dubbo-provider"));
 
@@ -32,12 +34,12 @@ public class APiConsumerInJvm {
     serviceConfig.export();
 
     // 8.挂起线程，避免服务停止
-    System.out.println("server is started");
+    log.info("server is started");
   }
 
   public static void referService() {
     // 10.创建服务引用对象实例
-    ReferenceConfig<GreetingService> referenceConfig = new ReferenceConfig<GreetingService>();
+    ReferenceConfig<GreetingService> referenceConfig = new ReferenceConfig<>();
     // 12.设置服务注册中心
     referenceConfig.setRegistry(new RegistryConfig("zookeeper://127.0.0.1:2181"));
 
@@ -57,7 +59,7 @@ public class APiConsumerInJvm {
     RpcContext.getContext().setAttachment("company", "alibaba");
 
     // 18调用服务
-    System.out.println(greetingService.sayHello("world"));
+    log.info("{}", greetingService.sayHello("world"));
   }
 
   public static void main(String[] args) throws InterruptedException {

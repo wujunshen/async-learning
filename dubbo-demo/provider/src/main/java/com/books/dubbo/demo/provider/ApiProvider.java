@@ -2,15 +2,17 @@ package com.books.dubbo.demo.provider;
 
 import com.books.dubbo.demo.api.GreetingService;
 import java.io.IOException;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.ServiceConfig;
 
+@Slf4j
 public class ApiProvider {
 
   public static void main(String[] args) throws IOException {
     // 1.创建ServiceConfig实例
-    ServiceConfig<GreetingService> serviceConfig = new ServiceConfig<GreetingService>();
+    ServiceConfig<GreetingService> serviceConfig = new ServiceConfig<>();
     // 2.设置应用程序配置
     serviceConfig.setApplication(new ApplicationConfig("first-dubbo-provider"));
 
@@ -26,15 +28,12 @@ public class ApiProvider {
     serviceConfig.setGroup("dubbo");
 
     // 6.设置线程池策略
-    //		HashMap<String, String> parameters = new HashMap<>();
-    //		parameters.put("threadpool", "mythreadpool");
-    //		serviceConfig.setParameters(parameters);
 
     // 7.导出服务
     serviceConfig.export();
 
     // 8.挂起线程，避免服务停止
-    System.out.println("server is started");
+    log.info("server is started");
     System.in.read();
   }
 }
