@@ -8,9 +8,9 @@ import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
+/** @author wujunshen */
 @Slf4j
 public class TestMoreCompletableFuture {
-
   // 1.异步任务，返回future
   public static CompletableFuture<String> doSomethingOne(String id) {
     // 1.1创建异步任务
@@ -66,7 +66,7 @@ public class TestMoreCompletableFuture {
 
     // 5.打印所有future的结果
     for (String str : finallyResult.get()) {
-      log.info("{}", str);
+      log.info(str);
     }
   }
 

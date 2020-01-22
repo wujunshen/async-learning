@@ -2,29 +2,28 @@ package org.third.chapter.futuretask;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.exception.ExceptionUtils;
 
+/** @author wujunshen */
 @Slf4j
 public class AsyncFutureExample {
+
+  @SneakyThrows
   public static String doSomethingA() {
-    try {
-      Thread.sleep(2000);
-    } catch (InterruptedException e) {
-      log.error("exception message is:{}", ExceptionUtils.getStackTrace(e));
-    }
-    log.info("--- doSomethingA---");
+    Thread.sleep(2000);
+
+    log.info("doSomethingA");
 
     return "TaskAResult";
   }
 
+  @SneakyThrows
   public static String doSomethingB() {
-    try {
-      Thread.sleep(2000);
-    } catch (InterruptedException e) {
-      log.error("exception message is:{}", ExceptionUtils.getStackTrace(e));
-    }
-    log.info("--- doSomethingB---");
+    Thread.sleep(2000);
+
+    log.info("doSomethingB");
+
     return "TaskBResult";
   }
 
@@ -32,30 +31,19 @@ public class AsyncFutureExample {
     long start = System.currentTimeMillis();
 
     // 1.创建future任务
-    FutureTask<String> futureTask =
-        new FutureTask<>(
-            () -> {
-              String result = null;
-              try {
-                result = doSomethingA();
-
-              } catch (Exception e) {
-                log.error("exception message is:{}", ExceptionUtils.getStackTrace(e));
-              }
-              return result;
-            });
+    FutureTask<String> futureTask = new FutureTask<>(AsyncFutureExample::doSomethingA);
 
     // 2.开启异步单元执行任务A
     Thread thread = new Thread(futureTask, "threadA");
     thread.start();
 
     // 3.执行任务B
-    String taskbResult = doSomethingB();
+    String doSomethingB = doSomethingB();
 
     // 4.同步等待线程A运行结束
-    String taskaResult = futureTask.get();
+    String doSomethingA = futureTask.get();
     // 5.打印两个任务执行结果
-    log.info("{} {}", taskaResult, taskbResult);
-    log.info("{}", System.currentTimeMillis() - start);
+    log.info("{} {}", doSomethingA, doSomethingB);
+    log.info("cost {}ms", System.currentTimeMillis() - start);
   }
 }

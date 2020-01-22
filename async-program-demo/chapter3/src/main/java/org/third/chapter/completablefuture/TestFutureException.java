@@ -5,6 +5,7 @@ import java.util.concurrent.ExecutionException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
+/** @author wujunshen */
 @Slf4j
 public class TestFutureException {
   public static void one() throws InterruptedException, ExecutionException {
@@ -21,16 +22,16 @@ public class TestFutureException {
                 log.error("exception message is:{}", ExceptionUtils.getStackTrace(e));
               }
               // 2.2设置计算结果到future
-              log.info("----{} set future result----", Thread.currentThread().getName());
+              log.info("{} set future result", Thread.currentThread().getName());
               future.completeExceptionally(new RuntimeException("error exception"));
             },
             "thread-1")
         .start();
 
     // 3.等待计算结果
-    log.info("---main thread wait future result---");
-    log.info("{}", future.get());
-    log.info("---main thread got future result---");
+    log.info("main thread wait future result");
+    log.info(future.get());
+    log.info("main thread got future result");
   }
 
   public static void two() throws InterruptedException, ExecutionException {
@@ -47,17 +48,17 @@ public class TestFutureException {
                 log.error("exception message is:{}", ExceptionUtils.getStackTrace(e));
               }
               // 2.2设置计算结果到future
-              log.info("----{} set future result----", Thread.currentThread().getName());
+              log.info("{} set future result", Thread.currentThread().getName());
               future.completeExceptionally(new RuntimeException("error exception"));
             },
             "thread-1")
         .start();
 
     // 3.等待计算结果
-    log.info("---main thread wait future result---");
+    log.info("main thread wait future result");
     // 默认值
-    log.info("{}", future.exceptionally(t -> "default").get());
-    log.info("---main thread got future result---");
+    log.info(future.exceptionally(t -> "default").get());
+    log.info("main thread got future result");
   }
 
   public static void two1() throws InterruptedException, ExecutionException {
@@ -74,17 +75,17 @@ public class TestFutureException {
                 log.error("exception message is:{}", ExceptionUtils.getStackTrace(e));
               }
               // 2.2设置计算结果到future
-              log.info("----{} set future result----", Thread.currentThread().getName());
+              log.info("{} set future result", Thread.currentThread().getName());
               future.completeExceptionally(new RuntimeException("error exception"));
             },
             "thread-1")
         .start();
 
     // 3.等待计算结果
-    log.info("---main thread wait future result---");
+    log.info("main thread wait future result");
     // 默认值
-    log.info("{}", future.exceptionally(t -> "default").get());
-    log.info("---main thread got future result---");
+    log.info(future.exceptionally(t -> "default").get());
+    log.info("main thread got future result");
   }
 
   public static void main(String[] args) throws InterruptedException, ExecutionException {

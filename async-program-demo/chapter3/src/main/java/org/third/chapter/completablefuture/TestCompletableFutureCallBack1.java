@@ -8,7 +8,11 @@ import java.util.concurrent.TimeUnit;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
-// 又返回结果的回调
+/**
+ * 又返回结果的回调
+ *
+ * @author wujunshen
+ */
 @Slf4j
 public class TestCompletableFutureCallBack1 {
   /** 0.创建线程池 */
@@ -46,8 +50,8 @@ public class TestCompletableFutureCallBack1 {
               } catch (Exception e) {
                 log.error("exception message is:{}", ExceptionUtils.getStackTrace(e));
               }
-              log.info("{}", Thread.currentThread().getName());
-              log.info("---after oneFuture over doSomething---");
+              log.info(Thread.currentThread().getName());
+              log.info("after oneFuture over doSomething");
             });
 
     // 3.同步等待twoFuture对应的任务完成，返回结果固定为null
@@ -87,7 +91,7 @@ public class TestCompletableFutureCallBack1 {
                 log.error("exception message is:{}", ExceptionUtils.getStackTrace(e));
               }
 
-              log.info("---after oneFuture over doSomething---" + t);
+              log.info("after oneFuture over doSomething" + t);
             });
 
     // 3.在future上施加事件，当future计算完成后回调该事件，并返回新future
@@ -101,7 +105,7 @@ public class TestCompletableFutureCallBack1 {
                 log.error("exception message is:{}", ExceptionUtils.getStackTrace(e));
               }
 
-              log.info("---after oneFuture over doSomething---" + t);
+              log.info("after oneFuture over doSomething" + t);
             });
 
     // 3.同步等待twoFuture对应的任务完成，返回结果固定为null
@@ -140,7 +144,7 @@ public class TestCompletableFutureCallBack1 {
                 log.error("exception message is:{}", ExceptionUtils.getStackTrace(e));
               }
 
-              log.info("---after oneFuture over doSomething---");
+              log.info("after oneFuture over doSomething");
             });
 
     // 3.同步等待twoFuture对应的任务完成，返回结果固定为null
@@ -179,7 +183,7 @@ public class TestCompletableFutureCallBack1 {
                 log.error("exception message is:{}", ExceptionUtils.getStackTrace(e));
               }
 
-              log.info("---after oneFuture over doSomething---{}", t);
+              log.info("after oneFuture over doSomething{}", t);
             });
 
     // 3.同步等待twoFuture对应的任务完成，返回结果固定为null

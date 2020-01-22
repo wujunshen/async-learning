@@ -36,3 +36,23 @@
 将删除 java-akka-remote-demo/server/.settings/
 将删除 java-akka-remote-demo/shared/.settings/
 /.idea/
+!/log.log
+将删除 async-program-demo/async-program-demo.iml
+将删除 async-program-demo/chapter1/chapter1.iml
+将删除 async-program-demo/chapter1/src/test/
+将删除 async-program-demo/chapter2/chapter2.iml
+将删除 async-program-demo/chapter3/chapter3.iml
+将删除 async-program-demo/chapter4/chapter4.iml
+将删除 async-program-demo/chapter5/chapter5.iml
+将删除 async-program-demo/chapter8/chapter8.iml
+将删除 dubbo-demo/consumer/consumer.iml
+将删除 dubbo-demo/dubbo-demo.iml
+将删除 dubbo-demo/provider/provider.iml
+将删除 dubbo-demo/provider/src/test/
+将删除 dubbo-demo/sdk/sdk.iml
+将删除 dubbo-demo/sdk/src/test/
+将删除 java-akka-remote-demo/client/client.iml
+将删除 java-akka-remote-demo/java-akka-remote-demo.iml
+将删除 java-akka-remote-demo/server/server.iml
+将删除 java-akka-remote-demo/shared/shared.iml
+将删除 log.log

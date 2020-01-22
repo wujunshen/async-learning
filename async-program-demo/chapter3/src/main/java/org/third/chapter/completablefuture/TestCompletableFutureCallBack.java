@@ -5,10 +5,11 @@ import java.util.concurrent.ExecutionException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
+/** @author wujunshen */
 @Slf4j
 public class TestCompletableFutureCallBack {
 
-  public static void main(String[] args) throws InterruptedException, ExecutionException {
+  public static void main(String[] args) throws ExecutionException, InterruptedException {
     // 1.创建异步任务，并返回future
     CompletableFuture<String> oneFuture =
         CompletableFuture.supplyAsync(
@@ -22,6 +23,7 @@ public class TestCompletableFutureCallBack {
               // 1.2返回计算结果
               return "hello";
             });
+
     // 2.在future上施加事件，当future计算完成后回调该事件，并返回新future
     // 2.1对步骤1计算结果基础上进行计算，这里t为步骤1返回的hello
     CompletableFuture<String> twoFuture =
@@ -38,6 +40,6 @@ public class TestCompletableFutureCallBack {
             });
 
     // 3.同步等待twoFuture对应的任务完成，并获取结果
-    log.info("{}", twoFuture.get());
+    log.info(twoFuture.get());
   }
 }

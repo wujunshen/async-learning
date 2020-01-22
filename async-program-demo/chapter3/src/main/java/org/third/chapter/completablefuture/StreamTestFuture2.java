@@ -4,19 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.exception.ExceptionUtils;
 
+/** @author wujunshen */
 @Slf4j
 public class StreamTestFuture2 {
 
+  @SneakyThrows
   public static String rpcCall(String ip, String param) {
     log.info("{} rpcCall:{}", ip, param);
-    try {
-      Thread.sleep(1000);
-    } catch (InterruptedException e) {
-      log.error("exception message is:{}", ExceptionUtils.getStackTrace(e));
-    }
+
+    Thread.sleep(1000);
 
     return param;
   }
@@ -39,7 +38,7 @@ public class StreamTestFuture2 {
         futureList.stream().map(CompletableFuture::join).collect(Collectors.toList());
 
     // 3.输出
-    resultList.forEach(r -> log.info("{}", r));
+    resultList.forEach(log::info);
 
     log.info("cost:{}ms", System.currentTimeMillis() - start);
   }

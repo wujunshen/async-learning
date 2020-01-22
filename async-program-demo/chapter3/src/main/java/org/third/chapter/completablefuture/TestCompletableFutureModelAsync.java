@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
+/** @author wujunshen */
 @Slf4j
 public class TestCompletableFutureModelAsync {
   /** 0自定义线程池 */
@@ -56,9 +57,9 @@ public class TestCompletableFutureModelAsync {
     future.whenComplete(
         (t, u) -> {
           if (null == u) {
-            log.info("{}", t);
+            log.info(t);
           } else {
-            log.info("{}", u.getLocalizedMessage());
+            log.info(u.getLocalizedMessage());
           }
         });
   }

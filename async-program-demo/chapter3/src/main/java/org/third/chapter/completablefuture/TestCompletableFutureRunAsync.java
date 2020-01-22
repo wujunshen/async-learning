@@ -60,7 +60,7 @@ public class TestCompletableFutureRunAsync {
             });
 
     // 2.2 同步等待异步任务执行结束
-    log.info("{}", future.get());
+    log.info(future.get());
   }
 
   /**
@@ -111,7 +111,7 @@ public class TestCompletableFutureRunAsync {
             BIZ_POOL_EXECUTOR);
 
     // 2.2 同步等待异步任务执行结束
-    log.info("{}", future.get());
+    log.info(future.get());
   }
 
   public static void main(String[] args) throws InterruptedException, ExecutionException {

@@ -4,6 +4,7 @@ import java.util.concurrent.CompletableFuture;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
+/** @author wujunshen */
 @Slf4j
 public class TestCompletableFutureWhenComplete {
   public static void main(String[] args) throws InterruptedException {
@@ -28,7 +29,7 @@ public class TestCompletableFutureWhenComplete {
           if (null == u) {
             log.info("1");
           } else {
-            log.info("{}", u.getLocalizedMessage());
+            log.info(u.getLocalizedMessage());
           }
         });
 
@@ -39,7 +40,7 @@ public class TestCompletableFutureWhenComplete {
           if (null == u) {
             log.info("2");
           } else {
-            log.info("{}", u.getLocalizedMessage());
+            log.info(u.getLocalizedMessage());
           }
         });
 

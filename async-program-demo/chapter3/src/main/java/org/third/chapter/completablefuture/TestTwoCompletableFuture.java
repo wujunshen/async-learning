@@ -5,9 +5,9 @@ import java.util.concurrent.ExecutionException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
+/** @author wujunshen */
 @Slf4j
 public class TestTwoCompletableFuture {
-
   /**
    * 1.异步任务，返回future
    *
@@ -55,11 +55,11 @@ public class TestTwoCompletableFuture {
     // I，等doSomethingOne执行完毕后，接着执行doSomethingTwo
     CompletableFuture<String> result =
         doSomethingOne("123").thenCompose(TestTwoCompletableFuture::doSomethingTwo);
-    log.info("{}", result.get());
+    log.info(result.get());
 
     // II,等doSomethingOne和doSomethingTwo都完成后，使用它们的结果做一件事
     result =
         doSomethingOne("123").thenCombine(doSomethingTwo("456"), (one, two) -> one + " " + two);
-    log.info("{}", result.get());
+    log.info(result.get());
   }
 }

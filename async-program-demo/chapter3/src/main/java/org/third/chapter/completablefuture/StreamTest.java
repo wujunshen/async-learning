@@ -6,23 +6,24 @@ import java.util.stream.Collectors;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
+/** @author wujunshen */
 @Slf4j
 public class StreamTest {
   public static List<Person> makeList() {
     List<Person> personList = new ArrayList<>();
     Person p1 = new Person();
     p1.setAge(10);
-    p1.setName("zlx");
+    p1.setName("古龙");
     personList.add(p1);
 
     p1 = new Person();
     p1.setAge(12);
-    p1.setName("jiaduo");
+    p1.setName("金庸");
     personList.add(p1);
 
     p1 = new Person();
     p1.setAge(5);
-    p1.setName("ruoran");
+    p1.setName("温瑞安");
     personList.add(p1);
     return personList;
   }
@@ -37,7 +38,7 @@ public class StreamTest {
             // 3.收集映射后元素
             .collect(Collectors.toList());
 
-    nameList.forEach(name -> log.info("{}", name));
+    nameList.forEach(log::info);
   }
 
   public static void noStream(List<Person> personList) {
@@ -50,7 +51,7 @@ public class StreamTest {
     }
 
     for (String name : nameList) {
-      log.info("{}", name);
+      log.info(name);
     }
   }
 
@@ -58,6 +59,8 @@ public class StreamTest {
     List<Person> personList = makeList();
 
     noStream(personList);
+
+    useStream(personList);
   }
 
   @Data

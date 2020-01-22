@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
+/** @author wujunshen */
 @Slf4j
 public class TestCompletableFutureSet {
   /** 0自定义线程池 */
@@ -36,21 +37,21 @@ public class TestCompletableFutureSet {
             log.error("exception message is:{}", ExceptionUtils.getStackTrace(e));
           }
           // 2.2设置计算结果到future
-          log.info("----{} set future result----", Thread.currentThread().getName());
+          log.info("{} set future result", Thread.currentThread().getName());
           future.complete("hello,jiaduo");
         });
 
     // 3.等待计算结果
-    log.info("---main thread wait future result---");
-    log.info("{}", future.get());
-    log.info("---main thread got future result---");
+    log.info("main thread wait future result");
+    log.info(future.get());
+    log.info("main thread got future result");
 
     future.whenComplete(
         (t, u) -> {
           if (null == u) {
-            log.info("{}", t);
+            log.info(t);
           } else {
-            log.info("{}", u.getLocalizedMessage());
+            log.info(u.getLocalizedMessage());
           }
         });
   }
